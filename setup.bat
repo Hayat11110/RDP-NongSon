@@ -25,6 +25,6 @@ echo finished
 echo ngrok ip:
 tasklist | find /i "ngrok.exe" >Nul && curl -s localhost:4040/api/tunnels | jq -r .tunnels[0].public_url || echo "ngrok not work try again ):"
 echo Username: Administrator
-echo Password: @Password123456
+echo Password: @Password1234
 echo wait for 10 secs (use ping command)
 ping -n 10 127.0.0.1 >nul
