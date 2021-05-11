@@ -1,0 +1,40 @@
+name: RDP Actions
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+    timeout-minutes: 9999
+
+    steps:
+    - name: Downloading Ngrok
+      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+    - name: Extraxt Ngrok ZIP File
+      run: Expand-Archive ngrok.zip
+    - name: Auth The Ngrok With Your Ngrok Authtoken Secret
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_TOKEN
+      env:
+        NGROK_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+    - name: Enable RDP Access Add Allow RDP To Firewall
+      run: |
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+    - name: Start New CMD Window With Ngrok On It
+      run: Start-Process cmd '/c "ngrok\ngrok.exe tcp 3389 --region=ap"'
+    - name: Download Setup File
+      run: Invoke-WebRequest https://raw.githubusercontent.com/windowsserverman/RDP-NongSon/main/setup.bat -OutFile setup.bat
+    - name: Run Setup File
+      run: cmd /c setup.bat
+    - name: Download Shortcuts
+      run: |
+        Invoke-WebRequest https://github.com/windowsserverman/RDP-NongSon/blob/main/uselessfiles/Node.js.lnk?raw=true -OutFile Node.js.lnk
+        Invoke-WebRequest https://github.com/windowsserverman/RDP-NongSon/blob/main/uselessfiles/Visual%20Studio%202019.lnk?raw=true -OutFile "Visual Studio 2019.lnk"
+    - name: Move Shortcuts To Public Desktop
+      run: |
+        cmd /c move Node.js.lnk C:\Users\Public\Desktop\Node.js.lnk
+        cmd /c move "Visual Studio 2019.lnk" "C:\Users\Public\Desktop\Visual Studio 2019.lnk"
+    - name: Keep System Alive Until Azure Auto Shutdown 6 hours end
+      run: cmd /c loop.bat
