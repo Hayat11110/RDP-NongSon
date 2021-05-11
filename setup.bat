@@ -5,7 +5,7 @@ net config server /srvcomment:"Github VPS"
 echo make taskbar small
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /V EnableAutoTray /T REG_DWORD /D 0 /F
 echo add fake administrator account with password @Password123456
-net user Administrator @Password123456 /add 
+net user Administrator @Password1234 /add 
 echo make fake administrator account admin access
 net localgroup administrators Administrator /add
 echo make admin account acive
