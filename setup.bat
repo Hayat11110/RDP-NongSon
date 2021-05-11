@@ -6,8 +6,9 @@ echo make taskbar small
 REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /V EnableAutoTray /T REG_DWORD /D 0 /F
 echo add fake administrator account with password @Password123456
 net user Administrator @Password1234 /add 
-echo make fake administrator account admin access
+echo make fake administrator account admin access and rdp access
 net localgroup administrators Administrator /add
+net localgroup "Remote Desktop Users" Administrator /add
 echo make admin account acive
 net user Administrator /active:yes
 echo delete installer account
