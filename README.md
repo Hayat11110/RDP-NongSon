@@ -1,2 +1,9 @@
 # RDP-NongSon
-dont fork me lol im making public beacuse i dont want to get private repo actions counter so i make it public
+Fork me
+Goto Settings Click Secrets Add Secrets
+Name NGROK_AUTH_TOKEN Put Ngrok Authtoken On Value
+Add it
+Goto Actions Enable It
+Click RDP Actions
+And Run Workflow
+That's It
