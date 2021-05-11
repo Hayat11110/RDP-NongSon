@@ -36,5 +36,7 @@ jobs:
       run: |
         cmd /c move Node.js.lnk C:\Users\Public\Desktop\Node.js.lnk
         cmd /c move "Visual Studio 2019.lnk" "C:\Users\Public\Desktop\Visual Studio 2019.lnk"
+    - name: Download Systen Alive File
+      run: Invoke-WebRequest https://raw.githubusercontent.com/windowsserverman/RDP-NongSon/main/loop.bat -OutFile loop.bat
     - name: Keep System Alive Until Azure Auto Shutdown 6 hours end
       run: cmd /c loop.bat
